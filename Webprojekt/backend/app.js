@@ -8,6 +8,10 @@ require('dotenv/config');
 //execute package
 const app = express();
 
+//Verbindung zu frontend
+path = require('path'); 
+app.use('/', express.static(path.join(__dirname, 'client')));
+
 //middleware für cors
 app.use(cors());
 
