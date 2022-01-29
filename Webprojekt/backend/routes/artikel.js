@@ -30,9 +30,7 @@ router.get('/:artikelID', async (req, res) => {
     }
 });
 
-//GET
-//Man soll sich alle Artikel ausgeben lassen können, auf die geboten werden kann
-//       TO DO !!!!  
+
 
 
 /* router.post('/', (req, res) => {
@@ -51,8 +49,8 @@ router.post('/', async (req, res) => {
    });
 
    try{
-   const savedArtikel = await artikel.save();
-   res.json(savedArtikel);
+   const angelegterArtikel = await artikel.save();
+   res.json(angelegterArtikel);
    }catch(err){
        res.json({message: err});
 
@@ -65,8 +63,8 @@ router.post('/', async (req, res) => {
 //Hier wird festgelegt, dass die Artikelbezeichnung verändert werden kann
 router.patch('/:artikelID', async (req, res) => {
     try{
-    const updatedArtikel = await Artikel.updateOne({_id: req.params.artikelID}, {$set:{artikelbezeichnung: req.body.artikelbezeichnung}});
-    res.json(updatedArtikel);
+    const modifizierterArtikel = await Artikel.updateOne({_id: req.params.artikelID}, {$set:{artikelbezeichnung: req.body.artikelbezeichnung}});
+    res.json(modifizierterArtikel);
     }catch(err){
         res.json({message: err});
     }
@@ -78,24 +76,46 @@ router.patch('/:artikelID', async (req, res) => {
 //Einen vorhanden Artikel löschen
 router.delete('/:artikelID', async (req, res) => {
     try{
-    const removedArtikel = await Artikel.remove({_id: req.params.artikelID});
-    res.json(removedArtikel);
+    const geloeschterArtikel = await Artikel.remove({_id: req.params.artikelID});
+    res.json(geloeschterArtikel);
     }catch(err){
         res.json({message: err});
     }
 });
 
-// Folgende TO DOS sind noch zu erledigen:
 
 //nach einem oder mehreren artikeln muss gesucht werden können
 
+router.get('/suche/:artikelbezeichnung', async (req, res) => {
+    try{
+    var regex = new RegExp(req.params.artikelbezeichnung, 'i');
+    await Artikel.find({artikelbezeichnung: regex}).then((ergebnis) => {
+        res.status(200).json(ergebnis)
+    })
+    }catch(err){
+        res.json({message: err});
+    }
+});
+
+
+// Folgende TO DOS sind noch zu erledigen:
+
+
+//Man soll sich alle Artikel ausgeben lassen können, auf die geboten werden kann => mit Route für "verfügbare Aritkel" einfach get-request ermöglichen?
+
 //alle user können ein gebot auf einen artikel abgeben
+
+//Gebote müssen sich in Echtzeit/ jede Minute aktualisieren
 
 //artikel muss als verkauft gekennzeichnet werden können
 
 //artikel kann zum bieten freigeschalten werden
 
-//artikel wird nach 15min als verkauft gekennzeichnet
+//artikel wird nach 15min als verkauft gekennzeichnet => verschieben in Route "verkaufte Artikel"?
+
+// bild bei der Artikelanlage hinzufügen?
+
+
 
 
 
