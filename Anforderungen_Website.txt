@@ -27,7 +27,7 @@ ANFORDERUNGEN AN DIE WEBSITE:
 	=> über Website
 
 - Als User kann man nach einem oder mehreren Artikeln suchen
-	=> über Schnittstelle
+	=> erledigt: über Schnittstelle
 	=> über Website
 
 - Aktuelle Gebote sollen dargestellt werden / User können sich alle Artikel ausgeben lassen, auf die geboten werden kann
