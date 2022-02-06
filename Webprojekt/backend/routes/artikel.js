@@ -134,9 +134,6 @@ router.get('/suche/:artikelbezeichnung', async (req, res) => {
 });
 
 
-// bild bei der Artikelanlage hinzufügen? => Suchen
-
-
 
 
 // Folgende TO DOS sind noch zu erledigen:
