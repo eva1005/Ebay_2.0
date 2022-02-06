@@ -1,12 +1,39 @@
-const express = require('express');
+// Hier wird alles importiert, was man für die Registrierung braucht
+/*import { createContext, useEffect, useState } from 'react';
+import { authApp, firestoreApp } from '../config/firebase';const express = require('express');
+
+export const AuthContext = createContext();
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [globalMsg, setGlobalMsg] = useState(''); */
+
 const router = express.Router();    // Funktion => Routen in verschiedenen Dateien und in app.js importieren
 const Artikel = require('../models/Artikel');
-const User = require('../models/User');
+const User = require('../models/User'); 
 
 /* router.get('/', (req, res) => {
     res.send('Du bist auf der Artikel-Seite');
 }); 
 */
+
+//REGISTER
+//Der User kann sich registrieren
+//const register = (email, password) => {
+//    return authApp.createUserWithEmailAndPassword(email, password);
+//  };
+
+//LOGIN
+//Der User kann sich in seinen zuvor erstellten Account einloggen
+//const login = (email, passwort) => {
+//    return authApp.signInWithEmailAndPassword(email, password);
+//  };
+
+//LOGOUT
+//Der User kann sich aus seinem zuvor erstellten Account ausloggen
+//const logout = () => {
+//    return authApp.signOut();
+//  };
 
 //GET
 //Die Artikel, die angelegt werden, sollen ALLE ausgegeben werden
@@ -104,10 +131,27 @@ router.get('/suche/:artikelbezeichnung', async (req, res) => {
 //Man soll sich alle Artikel ausgeben lassen können, auf die geboten werden kann => mit Route für "verfügbare Aritkel" einfach get-request ermöglichen?
 
 //alle user können ein gebot auf einen artikel abgeben
+//const bidAuction = ('/:artikelID', price) => {
+//    if (!currentUser) {
+//      return setGlobalMsg('Please login first');
+//    }
 
-//Gebote müssen sich in Echtzeit/ jede Minute aktualisieren
+//    let newPrice = Math.floor((price / 100) * 110);
+//    const db = firestoreApp.collection('auctions');
+
+//    return db.doc(auctionId).update({
+//      curPrice: newPrice,
+//      curWinner: currentUser.email,
+//    });
+//  };
 
 //artikel muss als verkauft gekennzeichnet werden können
+//Wie kann man das statt löschen verschieben?
+//const endAuction = (auctionId, price) => {
+//    const db = firestoreApp.collection('auctions');
+
+//    return db.doc(auctionId).delete();
+//  };
 
 //artikel kann zum bieten freigeschalten werden
 
@@ -115,9 +159,39 @@ router.get('/suche/:artikelbezeichnung', async (req, res) => {
 
 // bild bei der Artikelanlage hinzufügen?
 
+//Gebote müssen sich in Echtzeit/ jede Minute aktualisieren
+//Effekte (wie z.B. Echtzeit) werden angewendet)
+/* useEffect(() => {
+    const subscribe = authApp.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
 
+    return subscribe;
+  }, []);
 
+  useEffect(() => {
+    const interval = setTimeout(() => setGlobalMsg(''), 5000);
+    return () => clearTimeout(interval);
+  }, [globalMsg]);
 
+  return (
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        register,
+        login,
+        logout,
+        bidAuction,
+        endAuction,
+        globalMsg,
+      }}
+    >
+      {!loading && children}
+    </AuthContext.Provider>
+  );
+}; */
 
 
 module.exports = router;       // Routen können in anderen Dateien importiert werden
+
