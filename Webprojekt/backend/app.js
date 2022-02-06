@@ -8,10 +8,6 @@ require('dotenv/config');
 //execute package
 const app = express();
 
-//Verbindung zu frontend
-path = require('path'); 
-app.use('/', express.static(path.join(__dirname, 'client')));
-
 //middleware für cors
 app.use(cors());
 
@@ -20,8 +16,11 @@ app.use(bodyParser.json());
 
 //import routes => middleware
 const artikelRoute = require ('./routes/artikel');
-app.use('/artikel', artikelRoute);                   //jedes Mal, wenn man auf die Seite "/posts" geht, wird postsRoute verwendet 
+app.use('/artikel', artikelRoute);                   //jedes Mal, wenn man auf die Seite "/artikel" geht, wird artikelRoute verwendet 
 //app.use('/user', userRoute);
+
+//Route "uploads" verfügbar machen
+app.use('/uploads', express.static('uploads'));
 
 //middlewares => Funktionen, die greifen, sobald man eine Route aufruft (z.B. /articles)
 //damit kann man bspw. feststellen, ob ein User authentifiziert ist, wenn er eine Route besucht (index.use(auth);)

@@ -17,6 +17,12 @@ const ArtikelSchema = mongoose.Schema({
        type: Number,
        required: true
    },
+
+   produktBild: {
+       type: String,        //da es sich um eine URL handelt
+       required: true
+   },
+
     datum: {
         type: Date,
         default: Date.now 
