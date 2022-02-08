@@ -19,8 +19,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //import routes => middleware
-const artikelRoute = require ('./routes/artikel');
-app.use('/artikel', artikelRoute);                   //jedes Mal, wenn man auf die Seite "/artikel" geht, wird artikelRoute verwendet 
+const articleRoute = require ('./routes/article');
+app.use('/article', articleRoute);                   //jedes Mal, wenn man auf die Seite "/article" geht, wird articleRoute verwendet 
 //app.use('/user', userRoute);
 
 //Route "uploads" verfügbar machen
