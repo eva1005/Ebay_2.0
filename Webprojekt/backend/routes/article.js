@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();    // Funktion => Routen in verschiedenen Dateien und in app.js importieren
-const Artikel = require('../models/Artikel');
+const Article = require('../models/Article');
 const User = require('../models/User');
 const multer = require('multer');
 
@@ -45,8 +45,8 @@ const upload = multer({
 //Die Artikel, die angelegt werden, sollen ALLE ausgegeben werden
 router.get('/', async (req, res) => {
     try {
-        const artikel = await Artikel.find();
-        res.json(artikel);
+        const article = await Article.find();
+        res.json(article);
     }catch(err){
         res.json({message: err});
     }
@@ -54,10 +54,10 @@ router.get('/', async (req, res) => {
 
 //GET
 //EINEN speziellen Artikel zurückgeben
-router.get('/:artikelID', async (req, res) => {
+router.get('/:articleID', async (req, res) => {
     try{
-    const artikel = await Artikel.findById(req.params.artikelID);
-    res.json(artikel);
+    const article = await Article.findById(req.params.articleID);
+    res.json(article);
     }catch(err){
         res.json({message: err});
     }
@@ -75,18 +75,18 @@ router.get('/:artikelID', async (req, res) => {
 //ein neuer artikel muss angelegt werden können
 //ein Bild kann hochgeladen werden
 //console.log(req.body) => zum Testen - dann wird das, was bei Postman eingegeben wurde, auf der Konsole ausgegeben
-router.post('/', upload.single('produktBild'), async (req, res) => {     //single = man kann nur ein File parsen
+router.post('/', upload.single('productImage'), async (req, res) => {     //single = man kann nur ein File parsen
    //console.log(req.file); 
-   const artikel = new Artikel({
-       artikelbezeichnung: req.body.artikelbezeichnung,
-       beschreibung: req.body.beschreibung,
-       preis: req.body.preis,
-       produktBild: req.file.path                   //geht durch multer => damit speichern wir die Bildinformation in der DB
+   const article = new Article({
+       title: req.body.title,
+       description: req.body.description,
+       price: req.body.price,
+       productImage: req.file.path                   //geht durch multer => damit speichern wir die Bildinformation in der DB
    });
 
    try{
-   const angelegterArtikel = await artikel.save();
-   res.json(angelegterArtikel);
+   const savedArticle = await article.save();
+   res.json(savedArticle);
    }catch(err){
        res.json({message: err});
 
@@ -97,10 +97,10 @@ router.post('/', upload.single('produktBild'), async (req, res) => {     //singl
 //PATCH
 //Einen vorhanden Artikel ändern
 //Hier wird festgelegt, dass die Artikelbezeichnung verändert werden kann
-router.patch('/:artikelID', async (req, res) => {
+router.patch('/:articleID', async (req, res) => {
     try{
-    const modifizierterArtikel = await Artikel.updateOne({_id: req.params.artikelID}, {$set:{artikelbezeichnung: req.body.artikelbezeichnung}});
-    res.json(modifizierterArtikel);
+    const modifiedArticle = await Article.updateOne({_id: req.params.articleID}, {$set:{title: req.body.title}});
+    res.json(modifiedArticle);
     }catch(err){
         res.json({message: err});
     }
@@ -110,10 +110,10 @@ router.patch('/:artikelID', async (req, res) => {
 
 //DELETE
 //Einen vorhanden Artikel löschen
-router.delete('/:artikelID', async (req, res) => {
+router.delete('/:articleID', async (req, res) => {
     try{
-    const geloeschterArtikel = await Artikel.remove({_id: req.params.artikelID});
-    res.json(geloeschterArtikel);
+    const deletedArticle = await Article.remove({_id: req.params.articleID});
+    res.json(deletedArticle);
     }catch(err){
         res.json({message: err});
     }
@@ -122,19 +122,16 @@ router.delete('/:artikelID', async (req, res) => {
 
 //nach einem oder mehreren artikeln muss gesucht werden können
 
-router.get('/suche/:artikelbezeichnung', async (req, res) => {
+router.get('/search/:title', async (req, res) => {
     try{
-    var regex = new RegExp(req.params.artikelbezeichnung, 'i');
-    await Artikel.find({artikelbezeichnung: regex}).then((ergebnis) => {
-        res.status(200).json(ergebnis)
+    var regex = new RegExp(req.params.title, 'i');
+    await Article.find({title: regex}).then((result) => {
+        res.status(200).json(result)
     })
     }catch(err){
         res.json({message: err});
     }
 });
-
-
-// bild bei der Artikelanlage hinzufügen? => Suchen
 
 
 
