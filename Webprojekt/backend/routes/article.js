@@ -1,8 +1,11 @@
+
+
 const express = require('express');
 const router = express.Router();    // Funktion => Routen in verschiedenen Dateien und in app.js importieren
 const Article = require('../models/Article');
 const User = require('../models/User');
 const multer = require('multer');
+
 
 //Bilder hochladen
 const storage = multer.diskStorage({               //Dateien speichern
@@ -140,8 +143,9 @@ router.get('/search/:title', async (req, res) => {
 
 
 //Man soll sich alle Artikel ausgeben lassen können, auf die geboten werden kann => mit Route für "verfügbare Aritkel" einfach get-request ermöglichen?
+//vllt alle artikel aus der articel.js, weil die anderen ja bei verkaufteArtikel sind
 
-//alle user können ein gebot auf einen artikel abgeben
+//alle user können ein gebot auf einen artikel abgeben, wenn sie eingeloggt sind
 
 //Gebote müssen sich in Echtzeit/ jede Minute aktualisieren
 
@@ -151,7 +155,16 @@ router.get('/search/:title', async (req, res) => {
 
 //artikel wird nach 15min als verkauft gekennzeichnet => verschieben in Route "verkaufte Artikel"?
 
+//Registrieren
+//Der User kann sich registrieren
 
+
+//Login
+//Der User kann sich in seinen zuvor erstellten Account einloggen
+
+
+//Logout
+//Der User kann sich aus seinem zuvor erstellten Account ausloggen
 
 
 
