@@ -78,13 +78,13 @@ router.get('/:articleID', async (req, res) => {
 //ein neuer artikel muss angelegt werden können
 //ein Bild kann hochgeladen werden
 //console.log(req.body) => zum Testen - dann wird das, was bei Postman eingegeben wurde, auf der Konsole ausgegeben
-router.post('/', upload.single('productImage'), async (req, res) => {     //single = man kann nur ein File parsen
+router.post('/', upload.single('articleImage'), async (req, res) => {     //single = man kann nur ein File parsen
    //console.log(req.file); 
    const article = new Article({
        title: req.body.title,
        description: req.body.description,
        price: req.body.price,
-       productImage: req.file.path                   //geht durch multer => damit speichern wir die Bildinformation in der DB
+       articleImage: req.file.path                   //geht durch multer => damit speichern wir die Bildinformation in der DB
    });
 
    try{
@@ -155,16 +155,6 @@ router.get('/search/:title', async (req, res) => {
 
 //artikel wird nach 15min als verkauft gekennzeichnet => verschieben in Route "verkaufte Artikel"?
 
-//Registrieren
-//Der User kann sich registrieren
-
-
-//Login
-//Der User kann sich in seinen zuvor erstellten Account einloggen
-
-
-//Logout
-//Der User kann sich aus seinem zuvor erstellten Account ausloggen
 
 
 
