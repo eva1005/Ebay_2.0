@@ -4,23 +4,29 @@ const mongoose = require('mongoose');
 //Schema erstellen - damit wird festgelegt, wie ein Artikel aussieht
 
 
-const ArtikelSchema = mongoose.Schema({
-    artikelbezeichnung: {
+const ArticleSchema = mongoose.Schema({
+    title: {
         type: String,
         required: true 
     },
-    beschreibung: {
+    description: {
         type: String,
         required: true 
     },
-   preis: {
+   price: {
        type: Number,
        required: true
    },
-    datum: {
+
+   productImage: {
+       type: String,        //da es sich um eine URL handelt
+       required: true
+   },
+
+    date: {
         type: Date,
         default: Date.now 
     },
 });
 
-module.exports = mongoose.model('Artikel', ArtikelSchema);         //dies sieht man dann in der Datenbank als "Artikel"
+module.exports = mongoose.model('Article', ArticleSchema);         //dies sieht man dann in der Datenbank als "Article"
