@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();    // Funktion => Routen in verschiedenen Dateien und in app.js importieren
 const Article = require('../models/Article');
 const User = require('../models/User');
+const Bid = require('../models/Bid');
 const multer = require('multer');
 
 
@@ -57,6 +58,15 @@ router.get('/', async (req, res) => {
 
 //GET
 //EINEN speziellen Artikel zurückgeben
+//router.get('/:articleID', async (req, res) => {
+//    try{
+//    const article = await Article.findById(req.params.articleID);
+//    res.json(article);
+//    }catch(err){
+//        res.json({message: err});
+//    }
+//});
+
 router.get('/:articleID', async (req, res) => {
     try{
     const article = await Article.findById(req.params.articleID);
@@ -78,6 +88,7 @@ router.get('/:articleID', async (req, res) => {
 //ein neuer artikel muss angelegt werden können
 //ein Bild kann hochgeladen werden
 //console.log(req.body) => zum Testen - dann wird das, was bei Postman eingegeben wurde, auf der Konsole ausgegeben
+
 router.post('/', upload.single('productImage'), async (req, res) => {     //single = man kann nur ein File parsen
    //console.log(req.file); 
    const article = new Article({
@@ -94,15 +105,29 @@ router.post('/', upload.single('productImage'), async (req, res) => {     //sing
        res.json({message: err});
 
    }
-});
+}); 
 
 
 //PATCH
 //Einen vorhanden Artikel ändern
 //Hier wird festgelegt, dass die Artikelbezeichnung verändert werden kann
-router.patch('/:articleID', async (req, res) => {
+/*router.patch('/:articleID', async (req, res) => {
     try{
     const modifiedArticle = await Article.updateOne({_id: req.params.articleID}, {$set:{title: req.body.title}});
+    res.json(modifiedArticle);
+    }catch(err){
+        res.json({message: err});
+    }
+}); */
+
+//Hier wird festgelegt, dass die Artikelbezeichnung verändert werden kann
+//artikel muss als "verkauft" gekennzeichnet werden können -> -1 -> Übersetzung Frontend
+//artikel kann zum bieten freigeschalten werden -> -1 -> Übersetzung Frontend (Wird User nicht angezeigt)
+router.patch('/:articleID', async (req, res) => {
+    try{
+    const modifiedArticle = await Article.updateOne({_id: req.params.articleID}, 
+        {$set:{title: req.body.title, description: req.body.description, price: req.body.price, 
+            date: req.body.date, productImage: req.file.path, available: req.body.available}});
     res.json(modifiedArticle);
     }catch(err){
         res.json({message: err});
@@ -143,25 +168,46 @@ router.get('/search/:title', async (req, res) => {
 
 
 //Man soll sich alle Artikel ausgeben lassen können, auf die geboten werden kann => mit Route für "verfügbare Aritkel" einfach get-request ermöglichen?
-//vllt alle artikel aus der articel.js, weil die anderen ja bei verkaufteArtikel sind
+router.get('/search/available', async (req, res) => {
+    try{
+    await Article.find({available: 1}).then((result) => {
+        res.status(200).json(result)
+    })
+    }catch(err){
+        res.json({message: err});
+    }
+});
 
-//alle user können ein gebot auf einen artikel abgeben, wenn sie eingeloggt sind
+//alle user können ein gebot auf einen artikel abgeben(, wenn sie eingeloggt sind)
+router.post('/bid', async (req, res) => {     
+    //console.log(req.file); 
+    const bid = new Bid({
+        articleID: req.body.articleID,
+        userID: req.body.userID,
+        price: req.body.price,
+        date: req.body.date                  
+    });
+ 
+    try{
+    const savedBid = await bid.save();
+    res.json(savedBid);
+    }catch(err){
+        res.json({message: err});
+ 
+    }
+ });
+//Gebote müssen sich in Echtzeit/ jede Minute aktualisieren -> Im Frontend mit setTimeout/SetInterval
 
-//Gebote müssen sich in Echtzeit/ jede Minute aktualisieren
+//artikel wird nach 15min als verkauft gekennzeichnet -> Schauen was das sinnvollste ist. Im Frontend/Backend realisierbar.
 
-//artikel muss als verkauft gekennzeichnet werden können
 
-//artikel kann zum bieten freigeschalten werden
 
-//artikel wird nach 15min als verkauft gekennzeichnet => verschieben in Route "verkaufte Artikel"?
 
 //Registrieren
-//Der User kann sich registrieren
-
+//Der User kann sich registrierenVorstellungsrunde
 
 //Login
 //Der User kann sich in seinen zuvor erstellten Account einloggen
-
 
 //Logout
 //Der User kann sich aus seinem zuvor erstellten Account ausloggen
