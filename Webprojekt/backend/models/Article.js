@@ -27,6 +27,11 @@ const ArticleSchema = mongoose.Schema({
         type: Date,
         default: Date.now 
     },
+
+    available: {
+        type: Number,
+        default: -1
+    }
 });
 
 module.exports = mongoose.model('Article', ArticleSchema);         //dies sieht man dann in der Datenbank als "Article"
